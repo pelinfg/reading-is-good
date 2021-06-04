@@ -12,12 +12,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -57,20 +53,6 @@ public class StockServiceTest extends AbstractTestBase {
         bookStock2.setStock(10);
         secondBook.setBookStock(bookStock2);
         bookService.createNewBook(secondBook);
-    }
-
-    @Test
-    public void testConcurrentBookStockUpdate() throws InterruptedException {
-        List<BookStock> bookStocks = bookStockRepository.findAll();
-        Long bookStockId = bookStocks.get(0).getId();
-        final ExecutorService executor = Executors.newFixedThreadPool(5);
-        executor.execute(() -> bookService.updateBookStock(bookStockId, 1));
-
-        executor.shutdown();
-        executor.awaitTermination(1, TimeUnit.MINUTES);
-
-        final BookStock item = bookStockRepository.findById(bookStockId).get();
-        assertEquals(1, item.getStock());
     }
 
     @Test
