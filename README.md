@@ -18,8 +18,11 @@ vision operations."
 configure following lines in src/main/resources/application.properties:
 
 spring.datasource.url=jdbc:h2:mem:readingisgood
+
 spring.datasource.driverClassName=org.h2.Driver
+
 spring.datasource.username=root
+
 spring.datasource.password=root
 
 
